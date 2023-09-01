@@ -184,6 +184,7 @@ var middleLines = []
 var fourthLine = ''
 var selectedLines = []
 
+
 // Event listeners...
 randomButton.addEventListener('click', RandomOutput)
 
@@ -241,36 +242,65 @@ function updateOutput () {
   })
 }
 
-function doubleClickInsert(line) {
+function addButtonInsert(line) {
     if (!selectedLines.includes(line)) {
         selectedLines.push(line);
         updateSelected();
     }
 }
 
-function doubleClickRemove(index) {
+function buttonRemove(index) {
     selectedLines.splice(index, 1);
     updateSelected();
 }
 
-function updateSelected() {
+function updateOutput () {
+    outputElement.innerHTML = ''
+  
+    var lines = [firstLine].concat(middleLines, fourthLine)
+  
+    lines.forEach(function (line) {
+      var pElement = document.createElement('p')
+      pElement.textContent = line + " "
+  
+      var addButton = document.createElement('button');
+      addButton.textContent = "추가";
+      addButton.className = 'addButton'; // 클래스 추가
+      
+      addButton.addEventListener('click', function () {
+        addButtonInsert(line)
+      })
+  
+     pElement.appendChild(addButton)
+     outputElement.appendChild(pElement)
+    })
+  }
+  
+  function updateSelected() {
     selectedElement.innerHTML = '';
-
+  
     selectedLines.forEach(function (line, index) {
+  
         var pElement = document.createElement('p');
         pElement.textContent = line + " ";
-
+  
         var link = document.createElement('a');
         link.textContent = "[링크]";
         link.href = "https://www.google.com/search?q=" + encodeURIComponent(line + " 악보");
-        link.target = "_blank";
-
-        pElement.appendChild(link);
-
-        pElement.addEventListener('dblclick', function () {
-            doubleClickRemove(index);
-        });
-
-        selectedElement.appendChild(pElement);
-    });
-}
+        link.target="_blank";
+  
+        var removeButton= document.createElement("button");
+        removeButton.textContent= "삭제";
+        removeButton.className = 'removeButton'; // 클래스 추가
+  
+       removeButton.addEventListener("click", function(){
+           buttonRemove(index);
+       });
+  
+       pElement.appendChild(link);
+       pElement.appendChild(removeButton);
+  
+       selectedElement.appendChild(pElement);
+  
+     });
+  }

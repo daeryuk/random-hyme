@@ -15,12 +15,17 @@ button {
   font-size: 16px;
   background-color: #4caf50;
   color: white;
+  border-radius: 15px; 
   border: none;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #45a049;
+button.addButton {
+    background-color: #007BFF; /* 푸른색 */
+}
+
+button.removeButton {
+    background-color: #dc3545; /* 붉은색 */
 }
 
 .container {
